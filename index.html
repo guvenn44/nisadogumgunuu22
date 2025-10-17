@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sürpriz Doğum Günü! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff1493, #ff69b4, #ffb6c1);
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 2%, transparent 20%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 2%, transparent 20%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 3%, transparent 30%);
+            animation: backgroundMove 20s infinite linear;
+        }
+
+        @keyframes backgroundMove {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(50px, 50px) rotate(360deg); }
+        }
+        
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 
+                0 20px 40px rgba(255, 105, 180, 0.3),
+                0 0 0 8px rgba(255, 255, 255, 0.8),
+                0 0 0 12px rgba(255, 105, 180, 0.2);
+            border: 4px solid #ff69b4;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff1493, #ff69b4, #ffb6c1, #ff1493);
+            border-radius: 40px;
+            z-index: -1;
+            opacity: 0.3;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.02); }
+        }
+        
+        .birthday-text {
+            font-size: 20px;
+            color: #ff1493;
+            margin-bottom: 25px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+            animation: textPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* HEDİYE KUTUSU STİLLERİ */
+        #gift {
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+            margin: 0 auto 25px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            filter: drop-shadow(0 15px 25px rgba(255, 105, 180, 0.4));
+            animation: giftFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes giftFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+        
+        #gift:hover {
+            transform: scale(1.1) rotate(5deg);
+            animation: none;
+        }
+        
+        .gift-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(255, 105, 180, 0.6));
+            transition: all 0.3s ease;
+        }
+
+        .gift-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        #gift:hover .gift-glow {
+            opacity: 0.6;
+        }
+        
+        /* AÇILMIŞ HEDİYE */
+        .opened-gift {
+            display: none;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 25px;
+            position: relative;
+            animation: giftExplode 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes giftExplode {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            70% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        
+        .opened-gift-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 30px rgba(255, 105, 180, 0.8));
+            animation: openedGiftPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes openedGiftPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(1deg); }
+            75% { transform: scale(1.05) rotate(-1deg); }
+        }
+        
+        #message {
+            display: none;
+            text-align: center;
+            font-size: 26px;
+            margin-top: 25px;
+            color: #ff1493;
+            font-weight: bold;
+            line-height: 1.5;
+            background: linear-gradient(45deg, #ff1493, #ff69b4, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 3px 3px 6px rgba(255, 105, 180, 0.3);
+            animation: messageSlide 1s ease-out forwards;
+        }
+
+        @keyframes messageSlide {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* EFEKTLER */
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: heartFloat 4s ease-in forwards;
+            opacity: 0;
+        }
+
+        @keyframes heartFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(50vh) rotate(180deg) scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            animation: confettiFall 3s ease-in forwards;
+            opacity: 0;
+            border-radius: 50%;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+           100% {
+                transform: translateY(100vh) rotate(720deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+        
+        .decoration {
+            font-size: 32px;
+            margin: 12px 8px;
+            animation: decorationBounce 2s infinite;
+            display: inline-block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        @keyframes decorationBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(5deg); }
+            75% { transform: translateY(-8px) rotate(-5deg); }
+        }
+        
+        .tap-instruction {
+            font-size: 16px;
+            color: #ff69b4;
+            margin-top: 15px;
+            font-style: italic;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            animation: instructionPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes instructionPulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        
+        .sparkle {
+            position: absolute;
+            font-size: 28px;
+            animation: sparkleFlash 1s ease-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes sparkleFlash {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.8) rotate(180deg); opacity: 0.9; }
+            100% { transform: scale(1) rotate(360deg); opacity: 0; }
+        }
+
+        .golden-sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: gold;
+            border-radius: 50%;
+            animation: goldenSparkle 2s ease-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes goldenSparkle {
+            0% { transform: scale(0) translate(0, 0); opacity: 1; }
+            50% { transform: scale(3) translate(20px, -20px); opacity: 0.7; }
+            100% { transform: scale(1) translate(40px, -40px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <div class="birthday-text">🎀 22 EKİM 🎀</div>
+        
+        <!-- KAPALI HEDİYE KUTUSU -->
+        <div id="gift" onclick="openGift()">
+            <div class="gift-glow"></div>
+            <img src="https://r.resimlink.com/Bk8vxVWI.png" alt="Hediye Kutusu" class="gift-image">
+        </div>
+        
+        <!-- AÇILMIŞ HEDİYE KUTUSU -->
+        <div class="opened-gift" id="openedGift">
+            <img src="https://r.resimlink.com/Bk8vxVWI.png" alt="Açılan Hediye" class="opened-gift-image">
+        </div>
+        
+        <div class="tap-instruction">✨ Hediye kutusuna dokun ve sürprizi gör! ✨</div>
+        
+        <div class="decoration">🌟</div>
+        <div class="decoration">💝</div>
+        <div class="decoration">🎀</div>
+        <div class="decoration">🌸</div>
+        <div class="decoration">💖</div>
+        
+        <div id="message">
+            🎉 DOĞUM GÜNÜN KUTLU OLSUN! 🎉<br>
+            💖 İYİ Kİ DOĞDUN CANIM ARKADAŞIM!<br>
+            ✨ TÜM DİLEKLERİN GERÇEK OLSUN!
+        </div>
+    </div>
+
+    <script>
+        const gift = document.getElementById('gift');
+        const openedGift = document.getElementById('openedGift');
+        const message = document.getElementById('message');
+
+        function openGift() {
+            // Kapalı hediye kutusunu gizle
+            gift.style.display = 'none';
+            document.querySelector('.tap-instruction').style.display = 'none';
+            
+            // Açılmış hediye kutusunu göster
+            openedGift.style.display = 'block';
+            
+            // Mesajı göster
+            message.style.display = 'block';
+            
+            // MEGA EFEKTLERİ BAŞLAT
+            createMegaConfetti();
+            createHeartsRain();
+            createGoldenSparkles();
+            createColorExplosion();
+            playBirthdaySound();
+            
+            // Telefon titreşimi
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200, 100, 200]);
+            }
+        }
+
+        function createGoldenSparkles() {
+            const container = document.querySelector('.container');
+            for (let i = 0; i < 25; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'golden-sparkle';
+                sparkle.style.left = Math.random() * 80 + 10 + '%';
+                sparkle.style.top = Math.random() * 80 + 10 + '%';
+                sparkle.style.animationDelay = Math.random() * 1 + 's';
+                container.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 2000);
+            }
+        }
+
+        function createColorExplosion() {
+            const container = document.querySelector('.container');
+            const colors = ['#ff1493', '#ff69b4', '#ffeb3b', '#00ff00', '#00ffff', '#ff0000'];
+            
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = '✨';
+                sparkle.style.left = Math.random() * 80 + 10 + '%';
+                sparkle.style.top = Math.random() * 80 + 10 + '%';
+                sparkle.style.color = colors[Math.floor(Math.random() * colors.length)];
+                sparkle.style.animationDelay = Math.random() * 1.5 + 's';
+                container.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 1500);
+            }
+        }
+
+        function createMegaConfetti() {
+            const colors = ['#ff1493', '#ff69b4', '#ffeb3b', '#00ff00', '#00ffff', '#ff0000', '#ffffff', '#ffa500'];
+            const container = document.getElementById('hearts');
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.width = Math.random() * 15 + 8 + 'px';
+                confetti.style.height = Math.random() * 15 + 8 + 'px';
+                container.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        function createHeartsRain() {
+            const heartsContainer = document.getElementById('hearts');
+            const hearts = ['💖', '💕', '💗', '💓', '💞', '💘', '💝', '🌸', '🎀', '🌟', '✨', '🎉'];
+            
+            for (let i = 0; i < 60; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 4 + 's';
+                heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 5000);
+            }
+        }
+
+        function playBirthdaySound() {
+            // Basit bir bip sesi simülasyonu
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // Do
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+
+        // Touch event
+        gift.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            openGift();
+        });
+
+        window.onload = function() {
+            setTimeout(createHeartsRain, 1000);
+        };
+    </script>
+</body>
+</html>
